@@ -2,6 +2,7 @@ package com.udacity.jdnd.course3.critter.entities;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "t_customers")
@@ -17,17 +18,17 @@ public class Customer {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "notes", nullable = true)
+    @Column(name = "notes")
     private String notes;
 
     @OneToMany(targetEntity = Pet.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
-    private List<Pet> pets;
+    private Set<Pet> pets; // Pet objects should be unique
 
     public Customer() {
     }
 
-    public Customer(String name, String phoneNumber, String notes, List<Pet> pets) {
+    public Customer(String name, String phoneNumber, String notes, Set<Pet> pets) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.notes = notes;
@@ -66,11 +67,11 @@ public class Customer {
         this.notes = notes;
     }
 
-    public List<Pet> getPets() {
+    public Set<Pet> getPets() {
         return pets;
     }
 
-    public void setPets(List<Pet> pets) {
+    public void setPets(Set<Pet> pets) {
         this.pets = pets;
     }
 }

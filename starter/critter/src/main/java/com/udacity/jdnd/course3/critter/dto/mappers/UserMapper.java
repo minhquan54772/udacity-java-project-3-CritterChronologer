@@ -10,7 +10,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,7 +29,7 @@ public class UserMapper {
         customerDTO.setName(customer.getName());
         customerDTO.setPhoneNumber(customer.getPhoneNumber());
         customerDTO.setNotes(customer.getNotes());
-        List<Pet> pets = customer.getPets();
+        Set<Pet> pets = customer.getPets();
         if (pets != null && !pets.isEmpty()) {
             List<Long> petIds = pets.stream().map(Pet::getId).collect(Collectors.toList());
             customerDTO.setPetIds(petIds);
@@ -50,10 +52,10 @@ public class UserMapper {
 
         List<Long> petIds = customerDTO.getPetIds();
         if (petIds != null && !petIds.isEmpty()) {
-            List<Pet> pets = petIds.stream().map(this.petService::getPetById).collect(Collectors.toList());
+            Set<Pet> pets = petIds.stream().map(this.petService::getPetById).collect(Collectors.toSet());
             customer.setPets(pets);
         } else {
-            customer.setPets(new ArrayList<>());
+            customer.setPets(new HashSet<>());
         }
         return customer;
     }

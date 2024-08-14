@@ -9,6 +9,7 @@ import com.udacity.jdnd.course3.critter.services.EmployeeService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -43,11 +44,11 @@ public class ScheduleMapper {
         schedule.setDate(scheduleDTO.getDate());
 
         List<Long> petIds = scheduleDTO.getPetIds();
-        List<Pet> pets = petIds.stream().map(this.petService::getPetById).collect(Collectors.toList());
+        Set<Pet> pets = petIds.stream().map(this.petService::getPetById).collect(Collectors.toSet());
         schedule.setPets(pets);
 
         List<Long> employeeIds = scheduleDTO.getEmployeeIds();
-        List<Employee> employees = employeeIds.stream().map(this.employeeService::getEmployeeById).collect(Collectors.toList());
+        Set<Employee> employees = employeeIds.stream().map(this.employeeService::getEmployeeById).collect(Collectors.toSet());
         schedule.setEmployees(employees);
 
         schedule.setActivities(scheduleDTO.getActivities());

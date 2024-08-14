@@ -24,7 +24,7 @@ public class Schedule {
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "schedule_id")
     )
-    private List<Employee> employees;
+    private Set<Employee> employees;
 
     @ManyToMany
     @JoinTable(
@@ -32,17 +32,17 @@ public class Schedule {
             joinColumns = @JoinColumn(name = "pet_id"),
             inverseJoinColumns = @JoinColumn(name = "schedule_id")
     )
-    private List<Pet> pets;
+    private Set<Pet> pets;
 
     @CollectionTable(name = "t_schedule_activities", joinColumns = @JoinColumn(name = "schedule_id"))
     @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = EmployeeSkill.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = EmployeeSkill.class)
     private Set<EmployeeSkill> activities;
 
     public Schedule() {
     }
 
-    public Schedule(List<Employee> employees, List<Pet> pets, LocalDate date, Set<EmployeeSkill> activities) {
+    public Schedule(Set<Employee> employees, Set<Pet> pets, LocalDate date, Set<EmployeeSkill> activities) {
         this.employees = employees;
         this.pets = pets;
         this.date = date;
@@ -57,19 +57,19 @@ public class Schedule {
         return id;
     }
 
-    public List<Employee> getEmployees() {
+    public Set<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<Employee> employees) {
+    public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
     }
 
-    public List<Pet> getPets() {
+    public Set<Pet> getPets() {
         return pets;
     }
 
-    public void setPets(List<Pet> pets) {
+    public void setPets(Set<Pet> pets) {
         this.pets = pets;
     }
 

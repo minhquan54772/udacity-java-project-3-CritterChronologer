@@ -4,6 +4,7 @@ import com.udacity.jdnd.course3.critter.enumerations.PetType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "t_pets")
@@ -53,8 +54,6 @@ public class Pet {
         return name;
     }
 
-
-
     public void setName(String name) {
         this.name = name;
     }
@@ -89,5 +88,18 @@ public class Pet {
 
     public void setOwner(Customer owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pet pet = (Pet) o;
+        return Objects.equals(getId(), pet.getId()) && Objects.equals(getName(), pet.getName()) && Objects.equals(getBirthDate(), pet.getBirthDate()) && Objects.equals(getNotes(), pet.getNotes()) && getType() == pet.getType() && Objects.equals(getOwner(), pet.getOwner());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getBirthDate(), getNotes(), getType(), getOwner());
     }
 }

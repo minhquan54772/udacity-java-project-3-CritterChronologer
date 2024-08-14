@@ -19,12 +19,12 @@ public class Employee {
 
     @CollectionTable(name = "t_employee_skills", joinColumns = @JoinColumn(name = "employee_id"))
     @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = EmployeeSkill.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = EmployeeSkill.class)
     private Set<EmployeeSkill> skills;
 
     @CollectionTable(name = "t_employee_days_available", joinColumns = @JoinColumn(name = "employee_id"))
     @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = DayOfWeek.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = DayOfWeek.class)
     private Set<DayOfWeek> daysAvailable;
 
     public String getName() {
