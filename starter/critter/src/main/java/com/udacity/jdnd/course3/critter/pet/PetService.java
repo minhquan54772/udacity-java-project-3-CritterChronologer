@@ -1,6 +1,8 @@
 package com.udacity.jdnd.course3.critter.pet;
 
 import com.udacity.jdnd.course3.critter.user.Customer;
+import com.udacity.jdnd.course3.critter.user.CustomerNotFoundException;
+import com.udacity.jdnd.course3.critter.user.CustomerRepository;
 import com.udacity.jdnd.course3.critter.user.CustomerService;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +12,12 @@ import java.util.Optional;
 @Service
 public class PetService {
     private final PetRepository petRepository;
+    private final CustomerRepository customerRepository;
 
-    public PetService(PetRepository petRepository) {
+    public PetService(PetRepository petRepository, CustomerRepository customerRepository) {
         this.petRepository = petRepository;
+        this.customerRepository = customerRepository;
     }
-
 
     public List<Pet> getAllPets() {
         return petRepository.findAll();
@@ -37,7 +40,18 @@ public class PetService {
     }
 
     public Pet savePet(Pet pet) {
-        return petRepository.save(pet);
+        Long ownerId = pet.getOwner().getId();
+        Optional<Customer> customerById = customerRepository.findById(ownerId);
+        if (customerById.isEmpty()) {
+            throw new CustomerNotFoundException(String.format("Customer with id %s is not found.", ownerId));
+        }
+        Pet persistedPet = petRepository.save(pet);
+        Customer customer = customerById.get();
+        List<Pet> pets = customer.getPets();
+        pets.add(persistedPet);
+        customer.setPets(pets);
+        customerRepository.save(customer);
+        return persistedPet;
     }
 
     public Customer getCustomerByPetId(long petId) {

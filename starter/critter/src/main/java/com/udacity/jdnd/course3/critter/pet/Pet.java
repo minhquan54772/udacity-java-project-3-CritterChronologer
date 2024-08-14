@@ -27,7 +27,7 @@ public class Pet {
     private PetType type;
 
     @ManyToOne(targetEntity = Customer.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", nullable = false)
     private Customer owner;
 
     public Pet() {

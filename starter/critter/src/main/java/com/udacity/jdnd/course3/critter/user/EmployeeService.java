@@ -40,7 +40,6 @@ public class EmployeeService {
         this.employeeRepository.save(employee);
     }
 
-    // TODO
     public List<Employee> getAvailableEmployeesBySkills(EmployeeRequestDTO employeeRequestDTO) {
         Set<EmployeeSkill> skills = employeeRequestDTO.getSkills();
         DayOfWeek dayOfWeek = employeeRequestDTO.getDate().getDayOfWeek();
