@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -19,7 +20,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND s IN :skills " +
             "GROUP BY e " +
             "HAVING COUNT(DISTINCT s) = :requiredSkillCount")
-    List<Employee> findEmployeesBySkillsAndDayOfWeek(
+    Optional<List<Employee>> findEmployeesBySkillsAndDayOfWeek(
             @Param("dayOfWeek") DayOfWeek dayOfWeek,
             @Param("skills") Set<EmployeeSkill> skills,
             @Param("requiredSkillCount") long requiredSkillCount);

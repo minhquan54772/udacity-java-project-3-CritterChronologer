@@ -4,6 +4,7 @@ import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.entities.Pet;
 import com.udacity.jdnd.course3.critter.exceptions.CustomerNotFoundException;
 import com.udacity.jdnd.course3.critter.exceptions.PetNotFoundException;
+import com.udacity.jdnd.course3.critter.exceptions.PetWithoutOwnerException;
 import com.udacity.jdnd.course3.critter.repositories.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repositories.PetRepository;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,9 @@ public class PetService {
     }
 
     public Pet savePet(Pet pet) {
+        if (pet.getOwner() == null) {
+            throw new PetWithoutOwnerException("A pet MUST belong to a customer");
+        }
         Long ownerId = pet.getOwner().getId();
         Optional<Customer> customerById = customerRepository.findById(ownerId);
         if (customerById.isEmpty()) {

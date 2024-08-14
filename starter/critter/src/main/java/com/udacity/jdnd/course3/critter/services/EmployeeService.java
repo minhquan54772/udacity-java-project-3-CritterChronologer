@@ -1,11 +1,10 @@
 package com.udacity.jdnd.course3.critter.services;
 
+import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.entities.Employee;
+import com.udacity.jdnd.course3.critter.enumerations.EmployeeSkill;
 import com.udacity.jdnd.course3.critter.exceptions.EmployeeNotFoundException;
 import com.udacity.jdnd.course3.critter.repositories.EmployeeRepository;
-import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
-import com.udacity.jdnd.course3.critter.enumerations.EmployeeSkill;
-import com.udacity.jdnd.course3.critter.dto.mappers.UserMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +18,10 @@ import java.util.Set;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final UserMapper userMapper;
 
-    public EmployeeService(EmployeeRepository employeeRepository, UserMapper userMapper) {
+    public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
-        this.userMapper = userMapper;
+
     }
 
     public Employee save(Employee employee) {
@@ -51,7 +49,11 @@ public class EmployeeService {
     public List<Employee> getAvailableEmployeesBySkills(EmployeeRequestDTO employeeRequestDTO) {
         Set<EmployeeSkill> skills = employeeRequestDTO.getSkills();
         DayOfWeek dayOfWeek = employeeRequestDTO.getDate().getDayOfWeek();
-        return this.employeeRepository.findEmployeesBySkillsAndDayOfWeek(dayOfWeek, skills, skills.size());
+        Optional<List<Employee>> employeesBySkillsAndDayOfWeek = this.employeeRepository.findEmployeesBySkillsAndDayOfWeek(dayOfWeek, skills, skills.size());
+        if (employeesBySkillsAndDayOfWeek.isEmpty()) {
+            throw new EmployeeNotFoundException("Can not find any available employees that have needed skill(s)");
+        }
+        return employeesBySkillsAndDayOfWeek.get();
     }
 
 

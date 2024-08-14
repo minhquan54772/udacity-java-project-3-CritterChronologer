@@ -1,11 +1,13 @@
 package com.udacity.jdnd.course3.critter.services;
 
 import com.udacity.jdnd.course3.critter.entities.Schedule;
+import com.udacity.jdnd.course3.critter.exceptions.InvalidScheduleException;
 import com.udacity.jdnd.course3.critter.exceptions.ScheduleNotFoundException;
 import com.udacity.jdnd.course3.critter.repositories.ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,18 @@ public class ScheduleService {
     }
 
     public Schedule saveSchedule(Schedule schedule) {
+        if (schedule.getDate().isBefore(LocalDate.now())) {
+            throw new InvalidScheduleException("Can not create schedule in the past");
+        }
+        if (schedule.getDate() == null) {
+            throw new InvalidScheduleException("Can not create schedule without date");
+        }
+        if (schedule.getEmployees().isEmpty()) {
+            throw new InvalidScheduleException("Can not create schedule without employees");
+        }
+        if (schedule.getPets().isEmpty()) {
+            throw new InvalidScheduleException("Can not create schedule without pets");
+        }
         return scheduleRepository.save(schedule);
     }
 

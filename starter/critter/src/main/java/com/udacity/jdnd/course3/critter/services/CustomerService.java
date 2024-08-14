@@ -27,7 +27,11 @@ public class CustomerService {
     }
 
     public Customer getCustomerById(long id) {
-        return this.customerRepository.findById(id).orElse(null);
+        Optional<Customer> customerById = this.customerRepository.findById(id);
+        if (customerById.isEmpty()) {
+            throw new CustomerNotFoundException(String.format("Customer with id %d not found", id));
+        }
+        return customerById.get();
     }
 
     public Customer getCustomerByPetId(long petId) {
