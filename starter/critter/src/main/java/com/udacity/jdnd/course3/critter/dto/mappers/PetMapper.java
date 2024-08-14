@@ -3,17 +3,14 @@ package com.udacity.jdnd.course3.critter.dto.mappers;
 import com.udacity.jdnd.course3.critter.dto.PetDTO;
 import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.entities.Pet;
-import com.udacity.jdnd.course3.critter.services.PetService;
 import com.udacity.jdnd.course3.critter.services.CustomerService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PetMapper {
-    private final PetService petService;
     private final CustomerService customerService;
 
-    public PetMapper(PetService petService, CustomerService customerService) {
-        this.petService = petService;
+    public PetMapper(CustomerService customerService) {
         this.customerService = customerService;
     }
 

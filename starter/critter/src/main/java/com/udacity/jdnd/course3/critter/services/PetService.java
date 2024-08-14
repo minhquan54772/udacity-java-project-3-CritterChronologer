@@ -58,12 +58,4 @@ public class PetService {
         customerRepository.save(customer);
         return persistedPet;
     }
-
-    public Customer getCustomerByPetId(long petId) {
-        Optional<Pet> petById = petRepository.findById(petId);
-        if (petById.isEmpty()) {
-            throw new PetNotFoundException(String.format("Pet with id %s is not found", petId));
-        }
-        return petById.get().getOwner();
-    }
 }
