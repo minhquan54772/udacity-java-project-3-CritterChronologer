@@ -25,9 +25,6 @@ public class ScheduleService {
     }
 
     public Schedule saveSchedule(Schedule schedule) {
-        if (schedule.getDate().isBefore(LocalDate.now())) {
-            throw new InvalidScheduleException("Can not create schedule in the past");
-        }
         if (schedule.getDate() == null) {
             throw new InvalidScheduleException("Can not create schedule without date");
         }
