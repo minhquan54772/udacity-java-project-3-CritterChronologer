@@ -4,11 +4,13 @@ import com.udacity.jdnd.course3.critter.entities.Schedule;
 import com.udacity.jdnd.course3.critter.exceptions.ScheduleNotFoundException;
 import com.udacity.jdnd.course3.critter.repositories.ScheduleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 

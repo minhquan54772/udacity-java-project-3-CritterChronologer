@@ -4,11 +4,13 @@ import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.exceptions.CustomerNotFoundException;
 import com.udacity.jdnd.course3.critter.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CustomerService {
     private final CustomerRepository customerRepository;
 

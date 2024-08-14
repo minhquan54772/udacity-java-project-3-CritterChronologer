@@ -7,11 +7,14 @@ import com.udacity.jdnd.course3.critter.exceptions.PetNotFoundException;
 import com.udacity.jdnd.course3.critter.repositories.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repositories.PetRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
+@Transactional
 public class PetService {
     private final PetRepository petRepository;
     private final CustomerRepository customerRepository;
@@ -49,7 +52,7 @@ public class PetService {
         }
         Pet persistedPet = petRepository.save(pet);
         Customer customer = customerById.get();
-        List<Pet> pets = customer.getPets();
+        Set<Pet> pets = customer.getPets();
         pets.add(persistedPet);
         customer.setPets(pets);
         customerRepository.save(customer);
